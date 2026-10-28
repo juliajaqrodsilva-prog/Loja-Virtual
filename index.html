@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitrine Mix | Loja Virtual</title>
+
+<style>
+:root {
+  --fundo: #f6f6f8;
+  --cartao: #ffffff;
+  --texto: #222;
+  --destaque: #8b3dff;
+  --destaque2: #6b21d9;
+  --borda: #e6e2ed;
+}
+body.escuro {
+  --fundo: #17151d;
+  --cartao: #24212c;
+  --texto: #f5f2fa;
+  --borda: #40394a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+  transition: .25s;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--cartao);
+  border-bottom: 1px solid var(--borda);
+  padding: 15px 5%;
+}
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.logo { font-size: 25px; font-weight: 800; color: var(--destaque); }
+nav { display: flex; flex-wrap: wrap; gap: 15px; }
+nav a { color: var(--texto); text-decoration: none; font-weight: bold; }
+nav a:hover { color: var(--destaque); }
+.acoes { display: flex; align-items: center; gap: 8px; }
+.botao {
+  background: var(--destaque);
+  color: white;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.botao:hover { background: var(--destaque2); }
+.botao-secundario {
+  background: var(--cartao);
+  color: var(--texto);
+  border: 1px solid var(--borda);
+  padding: 9px 12px;
+  border-radius: 8px;
+}
+.banner {
+  margin: 24px auto;
+  width: 90%;
+  min-height: 270px;
+  border-radius: 18px;
+  padding: 45px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(110deg, #25143d, #8b3dff);
+  color: white;
+}
+.banner div { max-width: 560px; }
+.banner h1 { font-size: clamp(30px, 5vw, 48px); margin: 0 0 12px; }
+.banner p { line-height: 1.7; }
+main { width: 90%; max-width: 1500px; margin: auto; }
+.secao-titulo { margin: 35px 0 15px; }
+.secao-titulo h2 { margin-bottom: 6px; }
+.secao-titulo p { opacity: .75; }
+.pesquisa {
+  display: flex;
+  gap: 10px;
+  margin: 22px 0;
+}
+.pesquisa input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--borda);
+  border-radius: 9px;
+  background: var(--cartao);
+  color: var(--texto);
+}
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+.categoria {
+  padding: 10px 14px;
+  border: 1px solid var(--borda);
+  background: var(--cartao);
+  color: var(--texto);
+  border-radius: 25px;
+}
+.categoria.ativa { background: var(--destaque); color: white; border-color: var(--destaque); }
+.grade {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.produto {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 13px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.produto img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  background: #eee;
+}
+.produto-info { padding: 13px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.produto-info h3 { font-size: 16px; margin: 0; }
+.descricao { font-size: 13px; opacity: .75; line-height: 1.45; }
+.preco { font-size: 20px; color: var(--destaque); font-weight: 800; }
+.opcoes {
+  width: 100%;
+  padding: 9px;
+  border-radius: 7px;
+  border: 1px solid var(--borda);
+  background: var(--cartao);
+  color: var(--texto);
+}
+.produto .botao { width: 100%; margin-top: auto; }
+.sem-produtos { padding: 25px; text-align: center; grid-column: 1/-1; }
+.carrinho {
+  margin: 35px 0;
+  padding: 22px;
+  border-radius: 14px;
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+}
+.item-carrinho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borda);
+}
+.item-carrinho button { margin-left: 5px; }
+footer {
+  background: var(--cartao);
+  border-top: 1px solid var(--borda);
+  padding: 30px 5%;
+  margin-top: 45px;
+  text-align: center;
+  line-height: 1.8;
+}
+footer a { color: var(--destaque); margin: 0 8px; }
+.whatsapp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 20;
+  border-radius: 50px;
+  background: #20b75a;
+  color: white;
+  text-decoration: none;
+  padding: 14px 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 15px #0003;
+}
+@media (max-width: 1000px) {
+  .grade { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  header { padding: 13px 4%; }
+  .topo { align-items: flex-start; }
+  nav { order: 3; width: 100%; gap: 12px; }
+  nav a { font-size: 13px; }
+  .banner { padding: 28px; min-height: 230px; }
+  main { width: 92%; }
+  .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .produto img { height: 165px; }
+  .produto-info { padding: 10px; }
+  .produto-info h3 { font-size: 14px; }
+  .preco { font-size: 17px; }
+  .pesquisa { flex-direction: column; }
+}
+@media (max-width: 380px) {
+  .grade { grid-template-columns: 1fr; }
+  .produto img { height: 230px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="topo">
+    <div class="logo">Vitrine Mix</div>
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#carrinho">Carrinho</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <div class="acoes">
+      <button class="botao-secundario" onclick="alternarTema()" aria-label="Alternar tema">🌙 Tema</button>
+      <a class="botao" href="#carrinho" style="text-decoration:none">🛒 <span id="quantidade">0</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="banner" id="inicio">
+  <div>
+    <h1>Seu estilo, sua casa, suas escolhas!</h1>
+    <p>Moda masculina, feminina e infantil, acessórios, perfumes, beleza, autocuidado e decoração em um só lugar.</p>
+    <a href="#produtos" class="botao" style="display:inline-block;text-decoration:none">Explorar produtos</a>
+  </div>
+</section>
+
+<main>
+  <section id="categorias">
+    <div class="secao-titulo">
+      <h2>Encontre sua categoria</h2>
+      <p>Escolha uma categoria ou pesquise o produto desejado.</p>
+    </div>
+    <div class="categorias" id="botoesCategorias"></div>
+  </section>
+
+  <section id="produtos">
+    <div class="secao-titulo">
+      <h2>Nossos produtos</h2>
+      <p>Confira os modelos, tamanhos e opções disponíveis.</p>
+    </div>
+    <div class="pesquisa">
+      <input id="pesquisa" type="search" placeholder="Buscar jeans, moletom, perfume, maquiagem..." oninput="renderizarProdutos()">
+      <select id="ordenacao" class="opcoes" style="max-width:220px" onchange="renderizarProdutos()">
+        <option value="padrao">Ordenar por padrão</option>
+        <option value="menor">Menor preço</option>
+        <option value="maior">Maior preço</option>
+        <option value="nome">Nome A–Z</option>
+      </select>
+    </div>
+    <div class="grade" id="gradeProdutos"></div>
+  </section>
+
+  <section class="carrinho" id="carrinho">
+    <h2>🛒 Meu carrinho</h2>
+    <div id="itensCarrinho">Seu carrinho está vazio.</div>
+    <h3>Total: <span id="total">R$ 0,00</span></h3>
+    <button class="botao" onclick="finalizarCompra()">Finalizar pedido</button>
+    <button class="botao-secundario" onclick="limparCarrinho()">Limpar carrinho</button>
+    <p class="descricao">Demonstração: o checkout precisa ser conectado a um sistema real de pagamentos e pedidos.</p>
+  </section>
+</main>
+
+<footer id="contato">
+  <h2>Vitrine Mix</h2>
+  <p>Moda, acessórios, beleza e produtos para sua casa.</p>
+  <p>📍 Endereço: informe o endereço da sua loja</p>
+  <p>📮 CEP: informe o CEP | ☎ Telefone: informe seu telefone</p>
+  <p>
+    <a href="#" aria-label="Instagram">Instagram</a>
+    <a href="#" aria-label="Facebook">Facebook</a>
+    <a href="#" aria-label="TikTok">TikTok</a>
+  </p>
+  <p>© 2026 Vitrine Mix — Todos os direitos reservados.</p>
+</footer>
+
+<a class="whatsapp" id="whatsapp" href="https://wa.me/5500000000000" target="_blank" rel="noopener">WhatsApp</a>
+
+<script>
+const categorias = [
+  "Todos", "Masculino", "Feminino", "Infantil - Meninos",
+  "Infantil - Meninas", "Acessórios", "Casa e decoração",
+  "Perfumes", "Maquiagem", "Skincare e autocuidado"
+];
+
+// Troque os links das imagens por fotos próprias da sua loja quando quiser.
+const produtos = [
+  // MODA MASCULINA
+  {id:1,nome:"Calça Jeans Masculina Slim",categoria:"Masculino",preco:129.90,imagem:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80",descricao:"Jeans moderno para usar no dia a dia.",opcoes:["38","40","42","44","46","48"]},
+  {id:2,nome:"Calça Jeans Masculina Reta",categoria:"Masculino",preco:139.90,imagem:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=700&q=80",descricao:"Modelagem clássica e confortável.",opcoes:["38","40","42","44","46","48"]},
+  {id:3,nome:"Calça Jeans Masculina Skinny",categoria:"Masculino",preco:119.90,imagem:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80",descricao:"Modelo ajustado com visual urbano.",opcoes:["38","40","42","44","46"]},
+  {id:4,nome:"Calça de Moletom Masculina",categoria:"Masculino",preco:89.90,imagem:"https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=700&q=80",descricao:"Ideal para conforto e momentos casuais.",opcoes:["P","M","G","GG","XGG"]},
+  {id:5,nome:"Moletom Masculino com Capuz",categoria:"Masculino",preco:119.90,imagem:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",descricao:"Blusa quentinha para dias frios.",opcoes:["P","M","G","GG","XGG"]},
+  {id:6,nome:"Blusa de Frio Masculina",categoria:"Masculino",preco:109.90,imagem:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=700&q=80",descricao:"Peça versátil para combinar com jeans.",opcoes:["P","M","G","GG"]},
+  {id:7,nome:"Jaqueta Masculina Casual",categoria:"Masculino",preco:179.90,imagem:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80",descricao:"Estilo moderno para várias ocasiões.",opcoes:["P","M","G","GG"]},
+  {id:8,nome:"Boné Masculino Esportivo",categoria:"Masculino",preco:49.90,imagem:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=700&q=80",descricao:"Acessório casual com ajuste traseiro.",opcoes:["Preto","Branco","Azul","Cinza","Bege"]},
+  {id:9,nome:"Camiseta Masculina Básica",categoria:"Masculino",preco:39.90,imagem:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",descricao:"Camiseta para montar combinações variadas.",opcoes:["P","M","G","GG","Preta","Branca"]},
+  {id:10,nome:"Perfume Masculino Amadeirado",categoria:"Perfumes",preco:149.90,imagem:"https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",descricao:"Fragrância marcante para diversas ocasiões.",opcoes:["30 ml","50 ml","100 ml"]},
+  {id:11,nome:"Perfume Masculino Fresco",categoria:"Perfumes",preco:119.90,imagem:"https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=700&q=80",descricao:"Perfil aromático leve e refrescante.",opcoes:["30 ml","50 ml","100 ml"]},
+
+  // MODA FEMININA
+  {id:12,nome:"Calça Jeans Feminina Wide Leg",categoria:"Feminino",preco:149.90,imagem:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=700&q=80",descricao:"Modelagem ampla e moderna.",opcoes:["36","38","40","42","44","46"]},
+  {id:13,nome:"Calça Jeans Feminina Skinny",categoria:"Feminino",preco:119.90,imagem:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80",descricao:"Jeans versátil para looks casuais.",opcoes:["36","38","40","42","44"]},
+  {id:14,nome:"Calça Legging Feminina",categoria:"Feminino",preco:59.90,imagem:"https://images.unsplash.com/photo-1506629905607-d9b1c1b3a1a7?auto=format&fit=crop&w=700&q=80",descricao:"Confortável para treinos ou uso diário.",opcoes:["P","M","G","GG","Preta","Cinza"]},
+  {id:15,nome:"Calça de Moletom Feminina",categoria:"Feminino",preco:79.90,imagem:"https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=700&q=80",descricao:"Conforto para descansar ou sair.",opcoes:["P","M","G","GG"]},
+  {id:16,nome:"Moletom Feminino Oversized",categoria:"Feminino",preco:109.90,imagem:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",descricao:"Modelagem ampla com estilo urbano.",opcoes:["P","M","G","GG","Lilás","Preto"]},
+  {id:17,nome:"Blusa de Frio Feminina",categoria:"Feminino",preco:89.90,imagem:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=700&q=80",descricao:"Peça aconchegante para dias frios.",opcoes:["P","M","G","GG","Bege","Preta"]},
+  {id:18,nome:"Camiseta Feminina Estampada",categoria:"Feminino",preco:44.90,imagem:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=700&q=80",descricao:"Estampas para looks descontraídos.",opcoes:["P","M","G","GG","Branca","Preta"]},
+  {id:19,nome:"Camiseta Feminina Básica",categoria:"Feminino",preco:34.90,imagem:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",descricao:"Básico indispensável para combinar.",opcoes:["P","M","G","GG","Branca","Preta","Rosa"]},
+  {id:20,nome:"Bota Feminina Casual",categoria:"Feminino",preco:189.90,imagem:"https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=700&q=80",descricao:"Calçado versátil para dias frios.",opcoes:["34","35","36","37","38","39"]},
+  {id:21,nome:"Bota Feminina de Cano Curto",categoria:"Feminino",preco:219.90,imagem:"https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=700&q=80",descricao:"Modelo elegante para diferentes looks.",opcoes:["34","35","36","37","38","39"]},
+  {id:22,nome:"Perfume Feminino Floral",categoria:"Perfumes",preco:139.90,imagem:"https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",descricao:"Fragrância floral para o dia a dia.",opcoes:["30 ml","50 ml","100 ml"]},
+  {id:23,nome:"Perfume Feminino Adocicado",categoria:"Perfumes",preco:159.90,imagem:"https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=700&q=80",descricao:"Aroma envolvente para ocasiões especiais.",opcoes:["30 ml","50 ml","100 ml"]},
+
+  // MAQUIAGEM E SKINCARE
+  {id:24,nome:"Kit de Maquiagem Completo",categoria:"Maquiagem",preco:99.90,imagem:"https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=700&q=80",descricao:"Kit para criar diferentes produções.",opcoes:["Clara","Média","Escura"]},
+  {id:25,nome:"Paleta de Sombras",categoria:"Maquiagem",preco:49.90,imagem:"https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=700&q=80",descricao:"Cores variadas para looks criativos.",opcoes:["Neutras","Coloridas","Esfumadas"]},
+  {id:26,nome:"Batom Matte",categoria:"Maquiagem",preco:24.90,imagem:"https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=700&q=80",descricao:"Acabamento matte em diferentes cores.",opcoes:["Vermelho","Nude","Rosa","Vinho"]},
+  {id:27,nome:"Base Líquida",categoria:"Maquiagem",preco:39.90,imagem:"https://images.unsplash.com/photo-1631214540242-6fefb8c8b9d0?auto=format&fit=crop&w=700&q=80",descricao:"Escolha a tonalidade adequada à sua pele.",opcoes:["Clara","Média","Morena","Escura"]},
+  {id:28,nome:"Sérum Facial",categoria:"Skincare e autocuidado",preco:54.90,imagem:"https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=700&q=80",descricao:"Produto de cuidado facial. Confira o rótulo.",opcoes:["Hidratação","Vitamina C","Controle de oleosidade"]},
+  {id:29,nome:"Kit Skincare Facial",categoria:"Skincare e autocuidado",preco:119.90,imagem:"https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=700&q=80",descricao:"Rotina de cuidados com produtos variados.",opcoes:["Pele seca","Pele oleosa","Pele mista"]},
+  {id:30,nome:"Creme Hidratante Corporal",categoria:"Skincare e autocuidado",preco:34.90,imagem:"https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=80",descricao:"Cuidado diário para a pele.",opcoes:["Baunilha","Frutas","Sem fragrância"]},
+  {id:31,nome:"Kit Autocuidado e Banho",categoria:"Skincare e autocuidado",preco:69.90,imagem:"https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=700&q=80",descricao:"Itens para uma rotina relaxante.",opcoes:["Lavanda","Rosas","Cítrico"]},
+
+  // INFANTIL - MENINOS
+  {id:32,nome:"Conjunto Infantil Masculino",categoria:"Infantil - Meninos",preco:69.90,imagem:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=80",descricao:"Conjunto confortável para brincar.",opcoes:["2 anos","4 anos","6 anos","8 anos","10 anos"]},
+  {id:33,nome:"Camiseta Infantil para Meninos",categoria:"Infantil - Meninos",preco:29.90,imagem:"https://images.unsplash.com/photo-1503919005314-30d93d07d823?auto=format&fit=crop&w=700&q=80",descricao:"Camiseta para usar todos os dias.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:34,nome:"Calça Jeans Infantil Masculina",categoria:"Infantil - Meninos",preco:59.90,imagem:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=80",descricao:"Jeans infantil para passeios.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:35,nome:"Moletom Infantil para Meninos",categoria:"Infantil - Meninos",preco:54.90,imagem:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=80",descricao:"Blusa confortável para dias frios.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:36,nome:"Tênis Infantil para Meninos",categoria:"Infantil - Meninos",preco:89.90,imagem:"https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&w=700&q=80",descricao:"Calçado casual para brincar e passear.",opcoes:["25","26","27","28","29","30","31","32"]},
+
+  // INFANTIL - MENINAS
+  {id:37,nome:"Vestido Infantil para Meninas",categoria:"Infantil - Meninas",preco:59.90,imagem:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=80",descricao:"Vestido infantil para passeios e festas.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:38,nome:"Conjunto Infantil Feminino",categoria:"Infantil - Meninas",preco:69.90,imagem:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=80",descricao:"Conjunto prático e confortável.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:39,nome:"Legging Infantil para Meninas",categoria:"Infantil - Meninas",preco:34.90,imagem:"https://images.unsplash.com/photo-1503919005314-30d93d07d823?auto=format&fit=crop&w=700&q=80",descricao:"Peça versátil para brincar e passear.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:40,nome:"Blusa de Frio Infantil Feminina",categoria:"Infantil - Meninas",preco:49.90,imagem:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=80",descricao:"Blusa quentinha para o inverno.",opcoes:["2","4","6","8","10","12 anos"]},
+  {id:41,nome:"Tênis Infantil para Meninas",categoria:"Infantil - Meninas",preco:89.90,imagem:"https://images.unsplash.com/photo-1514989940723-e8e51635b782?auto=format&fit=crop&w=700&q=80",descricao:"Tênis casual para combinar com vários looks.",opcoes:["25","26","27","28","29","30","31","32"]},
+
+  // ACESSÓRIOS
+  {id:42,nome:"Relógio Masculino Casual",categoria:"Acessórios",preco:89.90,imagem:"https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=700&q=80",descricao:"Acessório clássico para o dia a dia.",opcoes:["Preto","Prata","Dourado"]},
+  {id:43,nome:"Carteira Masculina",categoria:"Acessórios",preco:49.90,imagem:"https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=700&q=80",descricao:"Carteira prática para guardar cartões e documentos.",opcoes:["Preta","Marrom","Caramelo"]},
+  {id:44,nome:"Óculos de Sol Masculino",categoria:"Acessórios",preco:59.90,imagem:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80",descricao:"Modelo moderno para compor o visual.",opcoes:["Preto","Marrom","Espelhado"]},
+  {id:45,nome:"Bolsa Feminina Casual",categoria:"Acessórios",preco:119.90,imagem:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80",descricao:"Bolsa versátil para passeios e trabalho.",opcoes:["Preta","Bege","Caramelo","Vermelha"]},
+  {id:46,nome:"Bolsa Feminina Pequena",categoria:"Acessórios",preco:79.90,imagem:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=700&q=80",descricao:"Modelo compacto para levar o essencial.",opcoes:["Preta","Branca","Rosa"]},
+  {id:47,nome:"Brincos e Colares",categoria:"Acessórios",preco:39.90,imagem:"https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=700&q=80",descricao:"Acessórios para variar suas combinações.",opcoes:["Dourado","Prata","Pérola"]},
+  {id:48,nome:"Óculos de Sol Feminino",categoria:"Acessórios",preco:59.90,imagem:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80",descricao:"Estilo para complementar o visual.",opcoes:["Preto","Marrom","Tartaruga"]},
+  {id:49,nome:"Mochila Escolar Infantil",categoria:"Acessórios",preco:79.90,imagem:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",descricao:"Mochila para escola e passeios.",opcoes:["Azul","Rosa","Verde","Preta"]},
+  {id:50,nome:"Boné Infantil",categoria:"Acessórios",preco:29.90,imagem:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=700&q=80",descricao:"Boné leve para completar o look infantil.",opcoes:["Azul","Preto","Rosa","Vermelho"]},
+  {id:51,nome:"Pulseiras e Acessórios Infantis",categoria:"Acessórios",preco:19.90,imagem:"https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=700&q=80",descricao:"Opções divertidas para crianças.",opcoes:["Colorido","Rosa","Azul","Kit misto"]},
+
+  // CASA E DECORAÇÃO
+  {id:52,nome:"Jogo de Cama Casal",categoria:"Casa e decoração",preco:149.90,imagem:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=700&q=80",descricao:"Conjunto para renovar o quarto.",opcoes:["Casal","Queen","King"]},
+  {id:53,nome:"Jogo de Cama Solteiro",categoria:"Casa e decoração",preco:99.90,imagem:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=700&q=80",descricao:"Conforto e praticidade para sua cama.",opcoes:["Solteiro","Solteiro extra"]},
+  {id:54,nome:"Jogo de Cama Estampado",categoria:"Casa e decoração",preco:129.90,imagem:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=700&q=80",descricao:"Estampas para dar personalidade ao quarto.",opcoes:["Floral","Geométrico","Folhas"]},
+  {id:55,nome:"Kit de Travesseiros",categoria:"Casa e decoração",preco:69.90,imagem:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=700&q=80",descricao:"Travesseiros para complementar sua cama.",opcoes:["1 unidade","Par","Kit com 4"]},
+  {id:56,nome:"Manta para Sofá",categoria:"Casa e decoração",preco:79.90,imagem:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=700&q=80",descricao:"Toque aconchegante para sala e quarto.",opcoes:["Bege","Cinza","Verde","Terracota"]},
+  {id:57,nome:"Almofadas Decorativas",categoria:"Casa e decoração",preco:39.90,imagem:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=700&q=80",descricao:"Almofadas para sofá, cama ou poltrona.",opcoes:["Geométrica","Floral","Lisa","Kit com 2"]},
+  {id:58,nome:"Vaso Decorativo",categoria:"Casa e decoração",preco:49.90,imagem:"https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=700&q=80",descricao:"Detalhe decorativo para diversos ambientes.",opcoes:["Pequeno","Médio","Grande"]},
+  {id:59,nome:"Quadro Decorativo",categoria:"Casa e decoração",preco:59.90,imagem:"https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=700&q=80",descricao:"Decoração para sala, quarto ou escritório.",opcoes:["Abstrato","Paisagem","Minimalista"]},
+  {id:60,nome:"Luminária Decorativa",categoria:"Casa e decoração",preco:89.90,imagem:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=700&q=80",descricao:"Iluminação aconchegante para sua casa.",opcoes:["Mesa","Cabeceira","Decorativa"]},
+  {id:61,nome:"Organizadores para Casa",categoria:"Casa e decoração",preco:34.90,imagem:"https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=700&q=80",descricao:"Ajude a manter seus espaços organizados.",opcoes:["Pequeno","Médio","Kit com 3"]}
+];
+
+let categoriaAtual = "Todos";
+let carrinho = [];
+
+const dinheiro = valor => valor.toLocaleString("pt-BR", {
+  style: "currency", currency: "BRL"
+});
+
+function criarCategorias() {
+  const area = document.getElementById("botoesCategorias");
+  area.innerHTML = "";
+  categorias.forEach(cat => {
+    const botao = document.createElement("button");
+    botao.className = "categoria" + (cat === categoriaAtual ? " ativa" : "");
+    botao.textContent = cat;
+    botao.onclick = () => {
+      categoriaAtual = cat;
+      criarCategorias();
+      renderizarProdutos();
+    };
+    area.appendChild(botao);
+  });
+}
+
+function renderizarProdutos() {
+  const busca = document.getElementById("pesquisa").value
+    .trim().toLocaleLowerCase("pt-BR");
+  const ordem = document.getElementById("ordenacao").value;
+  let lista = produtos.filter(p => {
+    const correspondeCategoria = categoriaAtual === "Todos" ||
+      p.categoria === categoriaAtual;
+    const texto = (p.nome + " " + p.categoria + " " + p.descricao)
+      .toLocaleLowerCase("pt-BR");
+    return correspondeCategoria && texto.includes(busca);
+  });
+
+  if (ordem === "menor") lista.sort((a,b) => a.preco - b.preco);
+  if (ordem === "maior") lista.sort((a,b) => b.preco - a.preco);
+  if (ordem === "nome") lista.sort((a,b) => a.nome.localeCompare(b.nome,"pt-BR"));
+
+  const grade = document.getElementById("gradeProdutos");
+  grade.innerHTML = "";
+
+  if (!lista.length) {
+    grade.innerHTML = '<p class="sem-produtos">Nenhum produto encontrado. Tente outra busca ou categoria.</p>';
+    return;
+  }
+
+  lista.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "produto";
+
+    const imagem = document.createElement("img");
+    imagem.src = p.imagem;
+    imagem.alt = p.nome;
+    imagem.loading = "lazy";
+    imagem.onerror = () => {
+      imagem.onerror = null;
+      imagem.src = "https://placehold.co/600x400?text=Imagem+do+produto";
+    };
+
+    const info = document.createElement("div");
+    info.className = "produto-info";
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = p.nome;
+
+    const desc = document.createElement("div");
+    desc.className = "descricao";
+    desc.textContent = p.descricao;
+
+    const preco = document.createElement("div");
+    preco.className = "preco";
+    preco.textContent = dinheiro(p.preco);
+
+    const opcoes = document.createElement("select");
+    opcoes.className = "opcoes";
+    opcoes.setAttribute("aria-label", "Escolha uma opção para " + p.nome);
+    p.opcoes.forEach(opcao => {
+      const item = document.createElement("option");
+      item.value = opcao;
+      item.textContent = "Opção: " + opcao;
+      opcoes.appendChild(item);
+    });
+
+    const adicionar = document.createElement("button");
+    adicionar.className = "botao";
+    adicionar.textContent = "Adicionar ao carrinho";
+    adicionar.onclick = () => adicionarCarrinho(p.id, opcoes.value);
+
+    info.append(titulo, desc, preco, opcoes, adicionar);
+    card.append(imagem, info);
+    grade.appendChild(card);
+  });
+}
+
+function adicionarCarrinho(id, opcao) {
+  const produto = produtos.find(p => p.id === id);
+  const existente = carrinho.find(i => i.id === id && i.opcao === opcao);
+
+  if (existente) {
+    existente.quantidade++;
+  } else {
+    carrinho.push({
+      id: produto.id,
+      nome: produto.nome,
+      preco: produto.preco,
+      opcao,
+      quantidade: 1
+    });
+  }
+  renderizarCarrinho();
+}
+
+function alterarQuantidade(id, opcao, variacao) {
+  const item = carrinho.find(i => i.id === id && i.opcao === opcao);
+  if (!item) return;
+  item.quantidade += variacao;
+  if (item.quantidade <= 0) {
+    carrinho = carrinho.filter(i => !(i.id === id && i.opcao === opcao));
+  }
+  renderizarCarrinho();
+}
+
+function removerItem(id, opcao) {
+  carrinho = carrinho.filter(i => !(i.id === id && i.opcao === opcao));
+  renderizarCarrinho();
+}
+
+function renderizarCarrinho() {
+  const area = document.getElementById("itensCarrinho");
+  area.innerHTML = "";
+
+  if (carrinho.length === 0) {
+    area.textContent = "Seu carrinho está vazio.";
+  } else {
+    carrinho.forEach(item => {
+      const linha = document.createElement("div");
+      linha.className = "item-carrinho";
+
+      const texto = document.createElement("span");
+      texto.textContent = `${item.nome} (${item.opcao}) — ${dinheiro(item.preco)} x ${item.quantidade}`;
+
+      const controles = document.createElement("div");
+      const menos = document.createElement("button");
+      menos.className = "botao-secundario";
+      menos.textContent = "−";
+      menos.onclick = () => alterarQuantidade(item.id, item.opcao, -1);
+
+      const mais = document.createElement("button");
+      mais.className = "botao-secundario";
+      mais.textContent = "+";
+      mais.onclick = () => alterarQuantidade(item.id, item.opcao, 1);
+
+      const remover = document.createElement("button");
+      remover.className = "botao-secundario";
+      remover.textContent = "Remover";
+      remover.onclick = () => removerItem(item.id, item.opcao);
+
+      controles.append(menos, mais, remover);
+      linha.append(texto, controles);
+      area.appendChild(linha);
+    });
+  }
+
+  const quantidade = carrinho.reduce((s,i) => s + i.quantidade, 0);
+  const total = carrinho.reduce((s,i) => s + i.preco * i.quantidade, 0);
+  document.getElementById("quantidade").textContent = quantidade;
+  document.getElementById("total").textContent = dinheiro(total);
+}
+
+function limparCarrinho() {
+  if (carrinho.length && !confirm("Deseja limpar todos os itens do carrinho?")) return;
+  carrinho = [];
+  renderizarCarrinho();
+}
+
+function finalizarCompra() {
+  if (!carrinho.length) {
+    alert("Adicione produtos ao carrinho antes de finalizar.");
+    return;
+  }
+
+  const resumo = carrinho.map(i =>
+    `${i.nome} | Opção: ${i.opcao} | Quantidade: ${i.quantidade} | ${dinheiro(i.preco * i.quantidade)}`
+  ).join("\n");
+
+  const total = carrinho.reduce((s,i) => s + i.preco * i.quantidade, 0);
+  const mensagem = `Olá! Gostaria de fazer este pedido:\n\n${resumo}\n\nTotal: ${dinheiro(total)}`;
+  const numero = "5500000000000"; // Troque pelo número real com código do país e DDD.
+  window.open("https://wa.me/" + numero + "?text=" + encodeURIComponent(mensagem), "_blank");
+}
+
+function alternarTema() {
+  document.body.classList.toggle("escuro");
+  localStorage.setItem("temaVitrine",
+    document.body.classList.contains("escuro") ? "escuro" : "claro");
+}
+
+if (localStorage.getItem("temaVitrine") === "escuro") {
+  document.body.classList.add("escuro");
+}
+
+// Atualize o WhatsApp com seu número real: código do país + DDD + telefone.
+document.getElementById("whatsapp").href = "https://wa.me/5500000000000";
+
+criarCategorias();
+renderizarProdutos();
+renderizarCarrinho();
+</script>
+</body>
+</html>
